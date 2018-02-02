@@ -19,11 +19,12 @@
 #
 # somewhere in your /etc/munin/plugins-conf.d/
 
+db=$(echo $0 | cut -d_ -f2-99)
 
 case $1 in
 	config)
+		echo "graph_title Firebird Transaction Stats ${db}"
 		cat << 'EOM'
-graph_title Firebird Transaction Stats
 graph_order oldest_trans oldest_active oldest_snapshot next_transaction oldest_trans_gap1 oldest_trans_gap2
 graph_args --base 1000
 graph_scale no
@@ -51,8 +52,6 @@ oldest_trans_gap2.critical 1000
 EOM
 exit 0;;
 esac
-
-db=$(echo $0 | cut -d_ -f2-99)
 
 fbstat=$(which fbstat 2> /dev/null)
 
